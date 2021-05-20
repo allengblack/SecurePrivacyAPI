@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using MongoDB.Driver;
-using SecurePrivacyAPI.Models;
+using SecurePrivacy.API.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 
-namespace SecurePrivacyAPI.Services
+namespace SecurePrivacy.API.Services
 {
     public class PersonService : IPersonService
     {
@@ -46,7 +46,17 @@ namespace SecurePrivacyAPI.Services
             return person;
         }
 
-        public async Task Remove(string id) => await _people.DeleteOneAsync(p => p.Id == id);
+        public async Task<Person> Remove(string id)
+        {
+            var dbPerson = await Get(id);
+            if (dbPerson == null)
+            {
+                return null;
+            }
+
+            await _people.DeleteOneAsync(p => p.Id == id);
+            return dbPerson;
+        }
     }
 
     public interface IPersonService
@@ -54,7 +64,7 @@ namespace SecurePrivacyAPI.Services
         Task<Person> Create(PersonDto person);
         Task<Person> Get(string id);
         Task<IEnumerable<Person>> GetAll();
-        Task Remove(string id);
+        Task<Person> Remove(string id);
         Task<Person> Update(string id, PersonDto person);
     }
 }

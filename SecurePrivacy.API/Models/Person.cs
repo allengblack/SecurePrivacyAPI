@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SecurePrivacyAPI.Models
+namespace SecurePrivacy.API.Models
 {
     public class Person
     {

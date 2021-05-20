@@ -1,4 +1,4 @@
-﻿namespace SecurePrivacyAPI.Models
+﻿namespace SecurePrivacy.API.Models
 {
     public class MongoOptions
     {

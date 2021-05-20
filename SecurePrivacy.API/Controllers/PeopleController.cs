@@ -1,28 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using SecurePrivacyAPI.Models;
-using SecurePrivacyAPI.Services;
+using SecurePrivacy.API.Models;
+using SecurePrivacy.API.Services;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace SecurePrivacyAPI.Controllers
+namespace SecurePrivacy.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class PeopleController : ControllerBase
     {
-        private readonly ILogger<PeopleController> _logger;
         private readonly IPersonService _personService;
 
-        public PeopleController(ILogger<PeopleController> logger, IPersonService service)
+        public PeopleController(IPersonService service)
         {
-            _logger = logger;
             _personService = service;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Person>> Create(PersonDto person)
+        public async Task<Person> Create(PersonDto person)
         {
-            return Ok(await _personService.Create(person));
+            return await _personService.Create(person);
         }
 
         /// <summary>
@@ -30,10 +29,10 @@ namespace SecurePrivacyAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<Person>> Get()
+        public async Task<List<Person>> Get()
         {
             var value = await _personService.GetAll();
-            return Ok(value);
+            return value.ToList();
         }
 
         [HttpGet("{id}")]
@@ -45,11 +44,11 @@ namespace SecurePrivacyAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(person);
+            return person;
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(string id, PersonDto model)
+        public async Task<ActionResult<Person>> Update(string id, PersonDto model)
         {
             var result = await _personService.Update(id, model);
             if (result == null)
@@ -57,11 +56,11 @@ namespace SecurePrivacyAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(new { message = "Updated Successfully", result });
+            return result;
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult<Person>> Delete(string id)
         {
             var person = await _personService.Get(id);
             if (person == null)
@@ -70,7 +69,7 @@ namespace SecurePrivacyAPI.Controllers
             }
 
             await _personService.Remove(person.Id);
-            return Ok(new { message = "Deleted Successfully" });
+            return Ok(new { message = "deleted successfully" });
         }
     }
 }

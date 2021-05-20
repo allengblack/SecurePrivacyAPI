@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SecurePrivacyAPI.Models
+namespace SecurePrivacy.API.Models
 {
     public class PersonDto
     {

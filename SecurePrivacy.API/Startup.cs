@@ -5,11 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
-using SecurePrivacyAPI.Models;
-using SecurePrivacyAPI.Services;
+using SecurePrivacy.API.Models;
+using SecurePrivacy.API.Services;
 using System;
 
-namespace SecurePrivacyAPI
+namespace SecurePrivacy.API
 {
     public class Startup
     {
