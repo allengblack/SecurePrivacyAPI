@@ -9,6 +9,7 @@ This repo contains three projects.
 #### The Test Project contains tests for:
 - The Controller and its functions
 - The `PersonService` used in the Controller
+
 (To run the test, you need to have a Mongo DB instance running on your machine.)
 
 #### The BinaryString Project contains an implementation of a function that solves the following problem: 
