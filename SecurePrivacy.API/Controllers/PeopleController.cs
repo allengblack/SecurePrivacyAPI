@@ -18,6 +18,11 @@ namespace SecurePrivacy.API.Controllers
             _personService = service;
         }
 
+        /// <summary>
+        /// Creates a new Person
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<Person> Create(PersonDto person)
         {
@@ -25,7 +30,7 @@ namespace SecurePrivacy.API.Controllers
         }
 
         /// <summary>
-        /// Endpoint to get all people
+        /// Gets all People
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -35,6 +40,11 @@ namespace SecurePrivacy.API.Controllers
             return value.ToList();
         }
 
+        /// <summary>
+        /// Used to get details of a particular person
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetById(string id)
         {
@@ -47,6 +57,12 @@ namespace SecurePrivacy.API.Controllers
             return person;
         }
 
+        /// <summary>
+        /// Used to update a Person's information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<Person>> Update(string id, PersonDto model)
         {
@@ -59,6 +75,11 @@ namespace SecurePrivacy.API.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Removes a Person from the System
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<Person>> Delete(string id)
         {
@@ -72,6 +93,10 @@ namespace SecurePrivacy.API.Controllers
             return Ok(new { message = "deleted successfully" });
         }
 
+        /// <summary>
+        /// Gets a list of the number of People in each category
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("stats")]
         public async Task<List<PersonGroup>> GetStats()
         {
