@@ -132,5 +132,39 @@ namespace SecurePrivacy.Tests
             Assert.Equal(result.Id, person.Id);
             Assert.Equal(result.Name, dto2.Name);
         }
+
+        [Fact]
+        public async Task Can_Get_Stats()
+        {
+            var word = new Faker().Random.Word();
+            var dto = new Faker<PersonDto>()
+              .RuleFor(p => p.Name, x => x.Person.FullName)
+              .RuleFor(p => p.Age, _ => 30)
+              .RuleFor(p => p.Address, x => x.Person.Address.City)
+              .RuleFor(p => p.Category, _ => word)
+              .Generate();
+
+            var dto2 = new Faker<PersonDto>()
+               .RuleFor(p => p.Name, x => x.Person.FullName)
+               .RuleFor(p => p.Age, _ => 50)
+               .RuleFor(p => p.Address, x => x.Person.Address.City)
+               .RuleFor(p => p.Category,_ => word)
+               .Generate();
+
+            var dto3 = new Faker<PersonDto>()
+               .RuleFor(p => p.Name, x => x.Person.FullName)
+               .RuleFor(p => p.Age, _ => 50)
+               .RuleFor(p => p.Address, x => x.Person.Address.City)
+                .RuleFor(p => p.Category, x => x.Random.Word())
+               .Generate();
+
+            var service = new PersonService(_collection, _mapper);
+            Task.WaitAll(service.Create(dto), service.Create(dto2), service.Create(dto3));
+
+            var stats = await service.Stats();
+            Assert.Equal(2, stats.Count);
+            var wordCat = stats.First(s => s.Category == word);
+            Assert.Equal(2, wordCat.Count);
+        }
     }
 }

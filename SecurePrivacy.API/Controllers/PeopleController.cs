@@ -71,5 +71,12 @@ namespace SecurePrivacy.API.Controllers
             await _personService.Remove(person.Id);
             return Ok(new { message = "deleted successfully" });
         }
+
+        [HttpGet("stats")]
+        public async Task<List<PersonGroup>> GetStats()
+        {
+            var result = await _personService.Stats();
+            return result;
+        }
     }
 }

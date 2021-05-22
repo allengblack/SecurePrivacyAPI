@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using SecurePrivacy.API.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SecurePrivacy.API.Services
@@ -57,6 +59,14 @@ namespace SecurePrivacy.API.Services
             await _people.DeleteOneAsync(p => p.Id == id);
             return dbPerson;
         }
+
+        public async Task<List<PersonGroup>> Stats()
+        {
+            var result = _people
+                .Aggregate()
+                .Group(p => p.Category, agg => new PersonGroup { Category = agg.Key, Count = agg.Sum(p => 1) });
+            return await result.ToListAsync();
+        }
     }
 
     public interface IPersonService
@@ -66,5 +76,6 @@ namespace SecurePrivacy.API.Services
         Task<IEnumerable<Person>> GetAll();
         Task<Person> Remove(string id);
         Task<Person> Update(string id, PersonDto person);
+        Task<List<PersonGroup>> Stats();
     }
 }

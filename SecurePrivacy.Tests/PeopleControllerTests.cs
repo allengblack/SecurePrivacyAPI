@@ -137,5 +137,23 @@ namespace SecurePrivacy.Tests
 
             Assert.Equal(person.Id, result.Id);
         }
+
+        [Fact]
+        public async Task Can_Get_Stats()
+        { 
+            var stats = new Faker<PersonGroup>()
+                .RuleFor(p => p.Category, x => x.Random.Word())
+                .RuleFor(p => p.Count, x => x.Random.Number(0, 10))
+                .Generate(5);
+
+            var service = new Mock<IPersonService>();
+            service.Setup(service => service.Stats())
+                .ReturnsAsync(stats);
+
+            var controller = new PeopleController(service.Object);
+            var result = await controller.GetStats();
+
+            Assert.Equal(5, result.Count);
+        }
     }
 }
