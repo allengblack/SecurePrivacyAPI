@@ -13,8 +13,10 @@ This repo contains three projects.
 #### The BinaryString Project contains an implementation of a function that solves the following problem: 
 ```
 We define the following: 
-- A binary string is a string consisting only of 0's and/or 1's. For example, 01011, 1111, and 00 are all binary strings.
-- Theprefix of a string is any substring of the string that includes the beginning of the string. For example, the prefixes of 11010 are 1, 11, 110, 1101, and 11010.
+- A binary string is a string consisting only of 0's and/or 1's. 
+For example, 01011, 1111, and 00 are all binary strings.
+- The prefix of a string is any substring of the string that includes the beginning of the string. 
+For example, the prefixes of 11010 are 1, 11, 110, 1101, and 11010.
 
 We consider a non-empty binary string to be good if the following two conditions are true:
 1. The number of 0's is equal to the number of 1's.
