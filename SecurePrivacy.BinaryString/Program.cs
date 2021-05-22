@@ -1,6 +1,6 @@
 ﻿using System;
 
-bool BinStringIsGood(string binString)
+static bool BinStringIsGood(string binString)
 {
     if (string.IsNullOrEmpty(binString)) return false;
     
@@ -18,7 +18,7 @@ bool BinStringIsGood(string binString)
         if (count < 0) return false;
     }
 
-    return count == 0 ? true : false;
+    return count == 0;
 }
 
 Console.WriteLine("Running Binary String Check...");
