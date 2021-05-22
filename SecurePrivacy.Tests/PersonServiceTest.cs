@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bogus;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using SecurePrivacy.API.Models;
 using SecurePrivacy.API.Services;
@@ -69,6 +70,15 @@ namespace SecurePrivacy.Tests
         }
 
         [Fact]
+        public async Task Returns_Null_On_Get_If_Person_Not_Existing()
+        {
+            var service = new PersonService(_collection, _mapper);
+            var result = await service.Get(ObjectId.GenerateNewId().ToString());
+
+            Assert.Null(result);
+        }
+
+        [Fact]
         public async Task Can_Get_People()
         {
             var dto = new Faker<PersonDto>()
@@ -108,6 +118,14 @@ namespace SecurePrivacy.Tests
         }
 
         [Fact]
+        public async Task Returns_Null_On_Remove_If_Person_Not_Existing()
+        {
+            var service = new PersonService(_collection, _mapper);
+            var check = await service.Remove(ObjectId.GenerateNewId().ToString());
+            Assert.Null(check);
+        }
+
+        [Fact]
         public async Task Can_Update_People()
         {
             var dto = new Faker<PersonDto>()
@@ -131,6 +149,14 @@ namespace SecurePrivacy.Tests
 
             Assert.Equal(result.Id, person.Id);
             Assert.Equal(result.Name, dto2.Name);
+        }
+
+        [Fact]
+        public async Task Returns_Null_On_Update_If_Person_Not_Existing()
+        {
+            var service = new PersonService(_collection, _mapper);
+            var check = await service.Update(ObjectId.GenerateNewId().ToString(), new PersonDto());
+            Assert.Null(check);
         }
 
         [Fact]

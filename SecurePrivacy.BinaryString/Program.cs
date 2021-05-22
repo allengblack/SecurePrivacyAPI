@@ -2,10 +2,7 @@
 
 bool BinStringIsGood(string binString)
 {
-    if (string.IsNullOrEmpty(binString))
-    {
-        return false; 
-    }
+    if (string.IsNullOrEmpty(binString)) return false;
     
     int count = 0;
     foreach (char c in binString)

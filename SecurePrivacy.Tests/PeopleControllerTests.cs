@@ -57,6 +57,21 @@ namespace SecurePrivacy.Tests
         }
 
         [Fact]
+        public async Task Returns_Error_On_Get_If_Person_Not_Found()
+        {
+            var id = Guid.NewGuid();
+
+            var service = new Mock<IPersonService>();
+            service.Setup(service => service.Get(It.IsAny<string>()))
+                .Returns(Task.FromResult((Person)null));
+
+            var controller = new PeopleController(service.Object);
+            var actionResult = await controller.GetById(id.ToString());
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+        }
+
+
+        [Fact]
         public async Task Can_Get_AllPeople()
         {
             var id = Guid.NewGuid();
@@ -102,6 +117,20 @@ namespace SecurePrivacy.Tests
         }
 
         [Fact]
+        public async Task Returns_Error_On_Delete_If_Person_Not_Found()
+        {
+            var id = Guid.NewGuid();
+
+            var service = new Mock<IPersonService>();
+            service.Setup(service => service.Remove(It.IsAny<string>()))
+                .Returns(Task.FromResult((Person)null));
+
+            var controller = new PeopleController(service.Object);
+            var actionResult = await controller.Delete(id.ToString());
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+        }
+
+        [Fact]
         public async Task Can_Update_Person()
         {
             var person = new Faker<Person>()
@@ -136,6 +165,20 @@ namespace SecurePrivacy.Tests
             var result = actionResult.Value;
 
             Assert.Equal(person.Id, result.Id);
+        }
+
+        [Fact]
+        public async Task Returns_Error_On_Update_If_Person_Not_Found()
+        {
+            var id = Guid.NewGuid();
+
+            var service = new Mock<IPersonService>();
+            service.Setup(service => service.Update(It.IsAny<string>(), It.IsAny<PersonDto>()))
+                .Returns(Task.FromResult((Person)null));
+
+            var controller = new PeopleController(service.Object);
+            var actionResult = await controller.Update(id.ToString(), new PersonDto());
+            Assert.IsType<NotFoundResult>(actionResult.Result);
         }
 
         [Fact]
